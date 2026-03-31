@@ -4,6 +4,14 @@
 
 A simple Linux C program that listens on port 1080 and prints incoming data to the console.
 
+## Quick Install (Linux)
+
+To install the latest pre-compiled binary directly to your system:
+```bash
+curl -fsSL https://raw.githubusercontent.com/<OWNER>/<REPOSITORY>/main/install.sh | sudo bash
+```
+*(Remember to replace `<OWNER>` and `<REPOSITORY>` with your GitHub details)*
+
 ## Features
 - Listens on TCP port 1080.
 - Prints client connection and disconnection status.
