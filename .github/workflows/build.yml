@@ -1,0 +1,57 @@
+name: Build and Verify
+
+on:
+  push:
+    branches: [ main, master ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Build project
+        run: |
+          make
+          if [ ! -f port_listener ]; then
+            echo "Error: Binary not created!"
+            exit 1
+          fi
+
+      - name: Verify cleanup
+        run: |
+          make clean
+          if [ -f port_listener ]; then
+            echo "Error: Binary not removed!"
+            exit 1
+          fi
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build binary
+        run: make
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: port_listener
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
