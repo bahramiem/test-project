@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration - Replace with your GitHub details
-REPO_OWNER="<OWNER>"
-REPO_NAME="<REPOSITORY>"
+REPO_OWNER="bahramiem"
+REPO_NAME="test-project"
 BINARY_NAME="port_listener"
 INSTALL_DIR="/usr/local/bin"
 
